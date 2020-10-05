@@ -1,0 +1,34 @@
+version: "3"
+
+networks:
+  kubeedge-bridge:
+    driver: bridge
+
+services:
+  emqx:
+    image: emqx/emqx-edge:v3.1.1-${ARCH}
+    restart: always
+    networks:
+      - kubeedge-bridge
+
+  edgecore:
+    image: ${EDGECOREIMAGE}
+    depends_on:
+      - emqx
+    environment:
+      mqtt.server: tcp://emqx:1883
+      edgehub.websocket.url: wss://${CLOUDHUB}/e632aba927ea4ac2b575ec1603d56f10/${EDGENAME}/events
+      edged.hostname-override: ${EDGENAME}
+      edgehub.controller.node-id: ${EDGENAME}
+    volumes:
+      - ${CERTPATH}:/etc/kubeedge/certs:ro
+      - /var/lib/edged:/var/lib/edged
+      - /var/lib/kubeedge:/var/lib/kubeedge
+    privileged: true
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1g
+    networks:
+      - kubeedge-bridge
