@@ -1,0 +1,5 @@
+# Default values for kubeedge.
+
+service:
+  type: LoadBalancer
+  port: 10000
