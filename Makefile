@@ -6,7 +6,7 @@ KIND_CLUSTER_NAME := kubeedge
 
 .PHONY: download-kubeedge install-kubeedge local-cluster
 
-download-kubeedge:
+install-keadm:
 	mkdir -p tempdir
 	wget \
 		--directory-prefix ./tempdir \
@@ -17,6 +17,12 @@ download-kubeedge:
 	cp -r ./tempdir/${KEADM_FNAME}/* ./kubeedge
 	rm -rf tempdir
 
+edge-logs:
+	journalctl -u edgecore.service -b -f
+
+restart-edgecore:
+	sudo service edgecore restart
+
 local-cluster:
 	kind delete cluster \
 		--name ${KIND_CLUSTER_NAME}
@@ -24,10 +30,16 @@ local-cluster:
 		--config=config/kind.yaml \
 		--name ${KIND_CLUSTER_NAME}
 
-install-kubeedge:
+install-cloudcore:
 	kubectl create ns kubeedge || true
 	helm upgrade --install \
 		kubeedge \
 		./charts/kubeedge \
 		--namespace kubeedge
+
+cloudcore-token:
+	kubectl get secret \
+		-n kubeedge \
+		tokensecret \
+		-o=jsonpath='{.data.tokendata}' | base64 -d
 
