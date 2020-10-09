@@ -17,11 +17,14 @@ install-keadm:
 	cp -r ./tempdir/${KEADM_FNAME}/* ./kubeedge
 	rm -rf tempdir
 
-edge-logs:
+logs-edgecore:
 	journalctl -u edgecore.service -b -f
 
 restart-edgecore:
 	sudo service edgecore restart
+
+delete-edgecore:
+	sudo ./kubeedge/keadm/keadm reset
 
 local-cluster:
 	kind delete cluster \
