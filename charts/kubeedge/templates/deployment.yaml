@@ -23,10 +23,10 @@ spec:
         image: kubeedge/cloudcore:v1.4.0
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: {{ .Values.cloudhub.websocket.port }}
+        - containerPort: {{ .Values.cloudHub.websocket.port }}
           name: wss
           protocol: TCP
-        - containerPort: {{ .Values.cloudhub.https.port }}
+        - containerPort: {{ .Values.cloudHub.https.port }}
           name: https
           protocol: TCP
         resources:

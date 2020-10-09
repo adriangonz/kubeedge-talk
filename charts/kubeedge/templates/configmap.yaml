@@ -15,10 +15,14 @@ data:
       master: ""
     modules:
       cloudHub:
+        {{- with .Values.cloudHub.advertiseAddress }}
+        advertiseAddress:
+        {{ toYaml . | indent 2 }}
+        {{- end }}
         https:
           address: 0.0.0.0
           enable: true
-          port: {{ .Values.cloudhub.https.port }}
+          port: {{ .Values.cloudHub.https.port }}
         nodeLimit: 10
         tlsCAFile: /etc/kubeedge/ca/rootCA.crt
         tlsCertFile: /etc/kubeedge/certs/edge.crt
@@ -29,4 +33,4 @@ data:
         websocket:
           address: 0.0.0.0
           enable: true
-          port: {{ .Values.cloudhub.websocket.port }}
+          port: {{ .Values.cloudHub.websocket.port }}

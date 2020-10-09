@@ -3,7 +3,9 @@
 service:
   type: LoadBalancer
 
-cloudhub:
+cloudHub:
+  advertiseAddress:
+    - 192.168.68.101
   https:
     port: 10002
   websocket:
