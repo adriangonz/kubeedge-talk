@@ -2,4 +2,9 @@
 
 service:
   type: LoadBalancer
-  port: 10000
+
+cloudhub:
+  https:
+    port: 10002
+  websocket:
+    port: 10000

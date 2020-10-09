@@ -20,11 +20,14 @@ spec:
       hostNetwork: true
       containers:
       - name: cloudcore
-        image: kubeedge/cloudcore:v1.3.1
+        image: kubeedge/cloudcore:v1.4.0
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 10000
-          name: cloudhub
+        - containerPort: {{ .Values.cloudhub.websocket.port }}
+          name: wss
+          protocol: TCP
+        - containerPort: {{ .Values.cloudhub.https.port }}
+          name: https
           protocol: TCP
         resources:
           limits:

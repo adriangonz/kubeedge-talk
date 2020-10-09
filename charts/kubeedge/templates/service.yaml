@@ -8,8 +8,12 @@ metadata:
     kubeedge: cloudcore
 spec:
   ports:
-  - port: {{ .Values.service.port }}
-    name: cloudhub
+  - port: {{ .Values.cloudhub.https.port }}
+    nodePort: 30002
+    name: https
+  - port: {{ .Values.cloudhub.websocket.port }}
+    nodePort: 30000
+    name: wss
   selector:
     k8s-app: kubeedge
     kubeedge: cloudcore
