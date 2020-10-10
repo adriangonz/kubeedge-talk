@@ -1,4 +1,4 @@
-FROM arm32v7/python:3.7.8
+FROM arm32v7/python:3.7.8-slim
 
 WORKDIR /usr/src/app
 

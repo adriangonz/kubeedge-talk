@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: led-example
+  namespace: examples
+spec:
+  containers:
+    - name: led-example
+      image: adriangonz/kubeedge-led-example:0.1.0
+      volumeMounts:
+        - mountPath: /dev/gpiomem
+          name: dev-gpiomem
+      securityContext:
+        privileged: true
+  volumes:
+    - name: dev-gpiomem
+      hostPath:
+        path: /dev/gpiomem
+  nodeName: raspberry
