@@ -1,5 +1,7 @@
-VERSION=0.1.0
-IMAGE=adriangonz/seldon-tflite:${VERSION}
+VERSION := 0.1.0
+ARCH := arm
+IMAGE := adriangonz/tfliteserver:${VERSION}-${ARCH}
+PLATFORM := linux/arm/v7
 
 .PHONY: build push 
 
@@ -14,7 +16,7 @@ build: models/face_mask_detection.tflite
 	# https://github.com/docker/buildx/issues/395
 	docker build \
 		. \
-		--platform linux/arm/v7 \
+		--platform ${PLATFORM} \
 		-t ${IMAGE}
 
 push:

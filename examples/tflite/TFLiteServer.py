@@ -2,7 +2,7 @@ from seldon_core.user_model import SeldonComponent
 from tflite_runtime import interpreter as tflite
 
 
-class TFLiteModel(SeldonComponent):
+class TFLiteServer(SeldonComponent):
     def __init__(self, model_uri="./models/face_mask_detection.tflite"):
         self._model_uri = model_uri
 

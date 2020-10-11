@@ -2,8 +2,8 @@ FROM arm32v7/python:3.7.8-slim
 
 WORKDIR /usr/src/app
 
-ARG API_TYPE = "REST"
-ARG SERVICE_TYPE = "MODEL"
+ARG API_TYPE="REST"
+ARG SERVICE_TYPE="MODEL"
 
 # Install native subdeps of Python deps.
 # - `libatlas`: necessary for `numpy`
@@ -20,4 +20,4 @@ RUN pip install \
 
 COPY . .
 
-CMD seldon-core-microservice TFLiteModel $API_TYPE --service-type $SERVICE_TYPE 
+CMD seldon-core-microservice TFLiteServer $API_TYPE --service-type $SERVICE_TYPE 
