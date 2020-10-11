@@ -2,11 +2,14 @@ FROM arm32v7/python:3.7.8-slim
 
 WORKDIR /usr/src/app
 
-# Install Git.
-# Necessary to install the `mlserver` dependency from the repo, (since it's not
-# available in PyPi yet).
+ARG API_TYPE = "REST"
+ARG SERVICE_TYPE = "MODEL"
+
+# Install native subdeps of Python deps.
+# - `libatlas`: necessary for `numpy`
+# - `libatomic1`: necessary for `grpcio`
 RUN apt-get update \
-    && apt-get install -y git curl build-essential
+    && apt-get install -y libatlas-base-dev libatomic1
 
 RUN pip install --upgrade wheel setuptools pip
 
@@ -17,4 +20,4 @@ RUN pip install \
 
 COPY . .
 
-CMD mlserver start .
+CMD seldon-core-microservice TFLiteModel $API_TYPE --service-type $SERVICE_TYPE 

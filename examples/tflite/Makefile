@@ -1,5 +1,5 @@
 VERSION=0.1.0
-IMAGE=adriangonz/mlserver-tflite:${VERSION}
+IMAGE=adriangonz/seldon-tflite:${VERSION}
 
 .PHONY: build push 
 

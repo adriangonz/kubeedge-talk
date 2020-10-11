@@ -1,8 +1,0 @@
-{
-  "name": "facemask-detector",
-  "version": "v0.1.0",
-  "implementation": "runtimes.TFLiteRuntime",
-  "parameters": {
-    "uri": "./models/face_mask_detection.tflite"
-  }
-}
