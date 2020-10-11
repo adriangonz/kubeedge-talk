@@ -2,8 +2,8 @@ FROM arm32v7/python:3.7.8-slim
 
 WORKDIR /usr/src/app
 
-ARG API_TYPE="REST"
-ARG SERVICE_TYPE="MODEL"
+ENV API_TYPE="REST"
+ENV SERVICE_TYPE="MODEL"
 
 # Install native subdeps of Python deps.
 # - `libatlas`: necessary for `numpy`

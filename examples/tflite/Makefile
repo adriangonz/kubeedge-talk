@@ -21,3 +21,6 @@ build: models/face_mask_detection.tflite
 
 push:
 	docker push ${IMAGE}
+
+install-dev:
+	pip install -r requirements-dev.txt
