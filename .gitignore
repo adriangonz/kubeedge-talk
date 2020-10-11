@@ -3,3 +3,5 @@
 
 # Ignore face mask detection model
 face_mask_detection.tflite
+
+__pycache__
