@@ -4,7 +4,7 @@ KEADM_FNAME := keadm-${KUBEEDGE_VERSION}-linux-${ARCH}
 
 KIND_CLUSTER_NAME := kubeedge
 
-.PHONY: download-kubeedge install-kubeedge local-cluster
+.PHONY: install-keadm logs-edgecore restart-edgecore delete-edgecore local-cluster
 
 install-keadm:
 	mkdir -p tempdir
