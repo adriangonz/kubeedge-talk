@@ -1,0 +1,16 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: face-mask-detector
+spec:
+  predictors:
+    - graph:
+        name: model
+        children: []
+      componentSpecs:
+        - spec:
+            containers:
+              - name: model
+                image: adriangonz/tfliteserver:0.1.0-arm
+            nodeName: raspberry
+      name: default
