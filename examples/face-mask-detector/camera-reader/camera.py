@@ -54,9 +54,9 @@ def main():
 
     for _ in camera.capture_continuous(frame, PIXEL_FORMAT.lower()):
         if DEBUG:
-            _save_frame(frame)
+            _save_frame(frame.array)
 
-        y_pred = _run_inference(frame)
+        y_pred = _run_inference(frame.array)
         _update_leds(y_pred)
         # Truncate to re-use
         # https://picamera.readthedocs.io/en/release-1.13/api_array.html#pirgbarray
