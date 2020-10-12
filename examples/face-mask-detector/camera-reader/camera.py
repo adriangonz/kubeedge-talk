@@ -3,7 +3,6 @@ import requests
 import time
 import numpy as np
 
-from PIL import Image
 from picamera import PiCamera
 from picamera.array import PiRGBArray
 from typing import Tuple
@@ -28,10 +27,7 @@ def _get_camera(resolution: Tuple[int, int] = (640, 480)) -> PiCamera:
 
 
 def _save_frame(frame: np.ndarray):
-    frame_file_path = "last-image.png"
-    logging.debug(f"Saving frame in {frame_file_path}...")
-    img = Image.fromarray(frame, PIXEL_FORMAT)
-    img.save(frame_file_path)
+    pass
 
 
 def _run_inference(frame: np.ndarray) -> np.ndarray:
@@ -62,6 +58,7 @@ def main():
     camera = _get_camera()
     frame = PiRGBArray(camera)
 
+    logging.info("Starting capture loop... Smile!")
     for _ in camera.capture_continuous(frame, PIXEL_FORMAT.lower()):
         if DEBUG:
             _save_frame(frame.array)
