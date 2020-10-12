@@ -52,7 +52,7 @@ def main():
     camera = _get_camera()
     frame = PiRGBArray(camera)
 
-    for _ in camera.capture_continuous(frame, PIXEL_FORMAT):
+    for _ in camera.capture_continuous(frame, PIXEL_FORMAT.lower()):
         if DEBUG:
             _save_frame(frame)
 
