@@ -5,13 +5,21 @@ metadata:
   namespace: examples
 spec:
   predictors:
-    - graph:
+    - annotations:
+        seldon.io/no-engine: "true"
+      graph:
         name: model
+        implementation: TFLITE_SERVER
+        modelUri: 'https://github.com/AIZOOTech/FaceMaskDetection/raw/master/models/face_mask_detection.tflite'
+        parameters:
+            - name: input_tensor_name
+              value: data_1
+              type: STRING
+            - name: output_tensor_name
+              value: cls_branch_concat_1/concat
+              type: STRING
         children: []
       componentSpecs:
         - spec:
-            containers:
-              - name: model
-                image: adriangonz/tfliteserver:0.1.0-arm
             nodeName: raspberry
       name: default
