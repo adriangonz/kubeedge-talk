@@ -5,3 +5,4 @@
 face_mask_detection.tflite
 
 __pycache__
+.ipynb_checkpoints
