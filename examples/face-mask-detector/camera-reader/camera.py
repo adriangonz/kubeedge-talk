@@ -9,6 +9,7 @@ from typing import Tuple
 
 
 DEBUG = True
+PIXEL_FORMAT = "RGB"
 FACEMASK_DETECTOR_SERVER = "http://model:9000"
 
 
@@ -23,7 +24,7 @@ def _get_camera(resolution: Tuple[int, int] = (640, 480)) -> PiCamera:
 
 
 def _save_frame(frame: np.ndarray):
-    img = Image.fromarray(frame, "RGB")
+    img = Image.fromarray(frame, PIXEL_FORMAT)
     img.save("last-image.png")
 
 
@@ -51,7 +52,7 @@ def main():
     camera = _get_camera()
     frame = PiRGBArray(camera)
 
-    for _ in camera.capture_continuous(frame, "rbg"):
+    for _ in camera.capture_continuous(frame, PIXEL_FORMAT):
         if DEBUG:
             _save_frame(frame)
 
