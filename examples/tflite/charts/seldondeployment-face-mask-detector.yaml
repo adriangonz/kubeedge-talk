@@ -2,6 +2,7 @@ apiVersion: machinelearning.seldon.io/v1
 kind: SeldonDeployment
 metadata:
   name: face-mask-detector
+  namespace: examples
 spec:
   predictors:
     - graph:

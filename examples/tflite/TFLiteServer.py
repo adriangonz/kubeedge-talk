@@ -4,13 +4,17 @@ from seldon_core.user_model import SeldonComponent
 from tflite_runtime import interpreter as tflite
 from typing import List, Dict, Iterable
 
-INPUT_TENSOR_NAME = "data_1"
-OUTPUT_TENSOR_NAME = "cls_branch_concat_1/concat"
-
 
 class TFLiteServer(SeldonComponent):
-    def __init__(self, model_uri="./models/face_mask_detection.tflite"):
+    def __init__(
+        self,
+        model_uri="./models/face_mask_detection.tflite",
+        input_tensor_name="data_1",
+        output_tensor_name="cls_branch_concat_1/concat",
+    ):
         self._model_uri = model_uri
+        self._input_tensor_name = input_tensor_name
+        self._output_tensor_name = output_tensor_name
 
     def load(self):
         self._interpreter = tflite.Interpreter(model_path=self._model_uri)
@@ -19,13 +23,13 @@ class TFLiteServer(SeldonComponent):
         # Obtain input tensor index
         input_tensors = self._interpreter.get_input_details()
         self._input_tensor_index = self._get_tensor_index(
-            input_tensors, INPUT_TENSOR_NAME
+            input_tensors, self._input_tensor_name
         )
 
         # Obtain output tensor index
         output_tensors = self._interpreter.get_output_details()
         self._output_tensor_index = self._get_tensor_index(
-            output_tensors, OUTPUT_TENSOR_NAME
+            output_tensors, self._output_tensor_name
         )
 
     def _get_tensor_index(self, tensors: List[Dict], tensor_name: str) -> int:
