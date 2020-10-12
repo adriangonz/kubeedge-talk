@@ -48,7 +48,7 @@ Note that we also want to parametrise the following model-specific details:
 
 
 ```python
-%%writefile TFLiteServer.py
+%%writefile ./tfliteserver/TFLiteServer.py
 import os
 import glob
 import numpy as np
@@ -126,7 +126,7 @@ However, we can put up a together a `Dockerfile` based on [Seldon's documentatio
 
 
 ```python
-%%writefile Dockerfile
+%%writefile ./tfliteserver/Dockerfile
 FROM arm32v7/python:3.7.8-slim
 
 WORKDIR /usr/src/app
@@ -159,7 +159,7 @@ In Linux, we can achieve this using QEMU.
 
 ```python
 !docker build \
-    . \
+    ./tfliteserver \
     --platform linux/arm/v7 \
     -t adriangonz/tfliteserver:0.1.0-arm
 !docker push adriangonz/tfliteserver:0.1.0-arm
@@ -232,7 +232,7 @@ This can be done easily with Seldon Core as:
 
 
 ```python
-%%writefile charts/seldondeployment-face-mask-detector.yaml
+%%writefile ./charts/seldondeployment-face-mask-detector.yaml
 apiVersion: machinelearning.seldon.io/v1
 kind: SeldonDeployment
 metadata:
