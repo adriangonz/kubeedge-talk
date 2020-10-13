@@ -55,7 +55,7 @@ def _run_inference(frame: np.ndarray) -> np.ndarray:
         raise RuntimeError("Invalid frame")
 
     json_response = response.json()
-    confidences = np.array(json_response["data"]["array"])
+    confidences = np.array(json_response["data"]["ndarray"])
     logging.debug(f"Obtained prediction with shape {confidences.shape}")
 
     # Filter out low-confidence predictions
