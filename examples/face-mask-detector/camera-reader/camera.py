@@ -1,6 +1,7 @@
 import logging
 import requests
 import time
+import os
 import numpy as np
 
 from picamera import PiCamera
@@ -8,19 +9,29 @@ from picamera.array import PiRGBArray
 from typing import Tuple
 
 
-DEBUG = False
+DEBUG = os.getenv("DEBUG", "false").lower() == "true"
+MODEL_SERVER = os.getenv("MODEL_SERVER", default="http://model:9000")
 PIXEL_FORMAT = "RGB"
-FACEMASK_DETECTOR_SERVER = "http://model:9000"
+CAMERA_RESOLUTION = (260, 260)
+CAMERA_WARMUP_SECONDS = 2
+CONFIDENCE_THRESHOLD = 0.5
 
 
-def _get_camera(resolution: Tuple[int, int] = (640, 480)) -> PiCamera:
-    logging.info(f"Accessing camera with {resolution} resolution")
+def _setup_logger():
+    log_level = logging.INFO
+    if DEBUG:
+        log_level = logging.DEBUG
+    logging.basicConfig(level=log_level)
+
+
+def _get_camera() -> PiCamera:
+    logging.info(f"Accessing camera with {CAMERA_RESOLUTION} resolution")
     camera = PiCamera()
-    camera.resolution = resolution
+    camera.resolution = CAMERA_RESOLUTION
     # Start a preview and let the camera warm up for 2 seconds
     logging.info("Waiting for camera to warm up...")
     camera.start_preview()
-    time.sleep(2)
+    time.sleep(CAMERA_WARMUP_SECONDS)
 
     logging.info("Obtained camera handle!")
     return camera
@@ -32,29 +43,42 @@ def _save_frame(frame: np.ndarray):
 
 def _run_inference(frame: np.ndarray) -> np.ndarray:
     logging.debug(f"Running inference in frame with shape {frame.shape}...")
-    batch = np.expand_dims(frame, axis=0)
+
+    # Normalise pixels to [0-1] range
+    batch = np.expand_dims(frame, axis=0) / 255.0
     payload = {"data": {"ndarray": batch.tolist()}}
-    endpoint = f"{FACEMASK_DETECTOR_SERVER}/api/v1.0/predictions"
+    endpoint = f"{MODEL_SERVER}/api/v1.0/predictions"
 
     logging.debug(f"Sending request to inference endpoint {endpoint}...")
     response = requests.post(endpoint, json=payload)
     if not response.ok:
         raise RuntimeError("Invalid frame")
 
-    y_pred = response.json()
-    logging.debug(f"Obtained prediction with shape {y_pred.shape}")
+    json_response = response.json()
+    confidences = np.array(json_response["data"]["array"])
+    logging.debug(f"Obtained prediction with shape {confidences.shape}")
 
-    # TODO: Filter out lower than threshold and keep classes
+    # Filter out low-confidence predictions
+    max_confidences = np.max(confidences, axis=2)
+    classes = np.argmax(confidences, axis=2)
+    high_confidence = np.where(max_confidences > CONFIDENCE_THRESHOLD)
 
-    return y_pred
+    return classes[high_confidence]
 
 
-def _update_leds():
+def _update_leds(y_pred: np.ndarray):
     logging.debug("Updating LEDs...")
-    pass
+
+    without_mask = np.count_nonzero(y_pred)
+    with_mask = len(y_pred) - without_mask
+    logging.debug(f"Detected {without_mask} persons without mask")
+    logging.debug(f"Detected {with_mask} persons with mask")
+
+    # TODO: Update LEDs
 
 
 def main():
+    _setup_logger()
     camera = _get_camera()
     frame = PiRGBArray(camera)
 
