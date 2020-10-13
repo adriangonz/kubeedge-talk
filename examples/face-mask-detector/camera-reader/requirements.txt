@@ -1,3 +1,4 @@
 picamera==1.13
+gpiozero==1.5.1
 requests==2.24.0
 numpy==1.19.2

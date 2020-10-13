@@ -4,9 +4,9 @@ import time
 import os
 import numpy as np
 
+from gpiozero import LED
 from picamera import PiCamera
 from picamera.array import PiRGBArray
-from typing import Tuple
 
 
 DEBUG = os.getenv("DEBUG", "false").lower() == "true"
@@ -15,6 +15,12 @@ PIXEL_FORMAT = "RGB"
 CAMERA_RESOLUTION = (260, 260)
 CAMERA_WARMUP_SECONDS = 2
 CONFIDENCE_THRESHOLD = 0.5
+
+GPIO_GREEN_LED = 17
+GPIO_RED_LED = 27
+
+green_led = LED(GPIO_GREEN_LED)
+red_led = LED(GPIO_RED_LED)
 
 
 def _setup_logger():
@@ -74,7 +80,18 @@ def _update_leds(y_pred: np.ndarray):
     logging.debug(f"Detected {without_mask} persons without mask")
     logging.debug(f"Detected {with_mask} persons with mask")
 
-    # TODO: Update LEDs
+    if without_mask > 0:
+        green_led.off()
+        red_led.on()
+        return
+
+    if with_mask > 0:
+        green_led.on()
+        red_led.off()
+        return
+
+    green_led.off()
+    red_led.off()
 
 
 def main():
