@@ -29,6 +29,8 @@ spec:
                     name: vc-libs
                   - mountPath: /dev/vchiq
                     name: dev-vchiq
+                  - mountPath: /dev/gpiomem
+                    name: dev-gpiomem
                 securityContext:
                   privileged: true
                   runAsUser: 0
@@ -40,13 +42,18 @@ spec:
                   - name: LD_LIBRARY_PATH
                     value: /opt/vc/lib
             volumes:
-              - hostPath:
+              # Native libraries to access the camera
+              - name: vc-libs
+                hostPath:
                   path: /opt/vc
-                  type: ""
-                name: vc-libs
-              - hostPath:
+              # Camera device (requires privileged)
+              - name: dev-vchiq
+                hostPath:
                   path: /dev/vchiq
-                  type: ""
-                name: dev-vchiq
+              # GPIO pins (requires privileged)
+              - name: dev-gpiomem
+                hostPath:
+                  path: /dev/gpiomem
+
             nodeName: raspberry
       name: default
