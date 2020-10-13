@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: camera-reader
+  namespace: examples
+spec:
+  containers:
+    - name: camera-reader
+      image: adriangonz/camera-reader:0.1.0-arm
+      volumeMounts:
+        - mountPath: /opt/vc
+          name: vc-libs
+        - mountPath: /dev/vchiq
+          name: dev-vchiq
+      env:
+        - name: MODEL_SERVER
+          value: http://model:9000
+        - name: LD_LIBRARY_PATH
+          value: /opt/vc/lib
+      securityContext:
+        privileged: true
+  volumes:
+    - hostPath:
+        path: /opt/vc
+        type: ""
+      name: vc-libs
+    - hostPath:
+        path: /dev/vchiq
+        type: ""
+      name: dev-vchiq
+  nodeName: raspberry

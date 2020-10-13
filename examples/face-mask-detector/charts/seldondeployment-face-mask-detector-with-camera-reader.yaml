@@ -1,0 +1,52 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: face-mask-detector
+  namespace: examples
+spec:
+  predictors:
+    - annotations:
+        seldon.io/no-engine: "true"
+      graph:
+        name: model
+        implementation: TFLITE_SERVER
+        modelUri: "https://github.com/AIZOOTech/FaceMaskDetection/raw/master/models/face_mask_detection.tflite"
+        parameters:
+          - name: input_tensor_name
+            value: data_1
+            type: STRING
+          - name: output_tensor_name
+            value: cls_branch_concat_1/concat
+            type: STRING
+        children: []
+      componentSpecs:
+        - spec:
+            containers:
+              - name: camera-reader
+                image: adriangonz/camera-reader:0.1.0-arm
+                volumeMounts:
+                  - mountPath: /opt/vc
+                    name: vc-libs
+                  - mountPath: /dev/vchiq
+                    name: dev-vchiq
+                securityContext:
+                  privileged: true
+                  runAsUser: 0
+                env:
+                  - name: MODEL_SERVER
+                    value: http://172.17.0.2:9001
+                  - name: DEBUG
+                    value: 'true'
+                  - name: LD_LIBRARY_PATH
+                    value: /opt/vc/lib
+            volumes:
+              - hostPath:
+                  path: /opt/vc
+                  type: ""
+                name: vc-libs
+              - hostPath:
+                  path: /dev/vchiq
+                  type: ""
+                name: dev-vchiq
+            nodeName: raspberry
+      name: default

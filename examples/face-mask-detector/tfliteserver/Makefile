@@ -12,8 +12,6 @@ models/face_mask_detection.tflite:
 		https://github.com/AIZOOTech/FaceMaskDetection/raw/master/models/face_mask_detection.tflite
 
 build: 
-	# Can't build image in x86_64 hosts (even with qemu) due to:
-	# https://github.com/docker/buildx/issues/395
 	docker build \
 		. \
 		--platform ${PLATFORM} \
