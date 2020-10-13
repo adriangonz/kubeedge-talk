@@ -1,7 +1,9 @@
 # Inference with TFLite on Edge devices
 
-This example walks through how to deploy a [TFLite model](https://www.tensorflow.org/lite/guide) in an edge device using Seldon Core.
+This example walks through how to deploy a [TFLite model](https://www.tensorflow.org/lite/guide) in an edge device using [Seldon Core](https://github.com/SeldonIO/seldon-core/).
 In particular, we will deploy a face mask detector in a Raspberry Pi, which will run inference locally from a camera feed.
+
+![raspberry-setup](./images/raspberry-sketch.png)
 
 The face mask detector has already been pre-trained by the team at [Aizoo Tech team](https://aizoo.com) who has kindly put it available on the [AIZOOTech/FaceMaskDetection](https://github.com/AIZOOTech/FaceMaskDetection) repository. **Massive thanks to them!**
 
