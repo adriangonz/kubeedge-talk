@@ -78,6 +78,8 @@ This token can be retrieved as:
 
 Once `keadm` is installed and we've got the token, we can then join to the cloud side by running:
 
+> :warning: This needs to be run on the edge-side!
+
 
 ```python
 !sudo keadm join \
