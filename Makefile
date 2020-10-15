@@ -6,6 +6,13 @@ KIND_CLUSTER_NAME := kubeedge
 
 .PHONY: install-keadm logs-edgecore restart-edgecore delete-edgecore local-cluster
 
+README.md: README.ipynb
+	jupyter nbconvert \
+		README.ipynb \
+		--ClearOutputPreprocessor.enabled=True \
+		--to markdown \
+		--output README.md
+
 install-keadm:
 	mkdir -p tempdir
 	wget \
