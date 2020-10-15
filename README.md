@@ -7,7 +7,7 @@ This repository holds the notebooks and examples that will be shown in the [`Inf
 Most examples require you to have a Kubernetes cluster with KubeEdge installed, as well as a edge device in-sync with the cloud side.
 We've included some Helm charts and config files that should help you get started.
 
-### Disclaimer
+### Disclaimer :warning:
 
 These instructions haven't been tested fully across multiple environments, so **they are provided as-is**!
 If you run into any issues, you should check each project's relevant docs:
@@ -35,7 +35,7 @@ Once you've got Kind installed, it should be enough to run:
 We've included a simple [Helm](https://helm.sh/) chart that installs `cloudcore`, the cloud-side component of KubeEdge, exposing the ports `10000` and `10002` used to sync with the edge-side.
 If you've got Helm installed, it should be enough to run:
 
-> Make sure you are pointing to your local Kind cluster!
+> :warning: Make sure you are pointing to your local Kind cluster!
 
 
 ```python
@@ -55,7 +55,7 @@ To do this, we can use the [`keadm` tool](https://docs.kubeedge.io/en/latest/set
 To install it an edge device you can download it directly from the [project's GitHub release page](https://github.com/kubeedge/kubeedge/releases/download/v1.4.0/keadm-v1.4.0-linux-arm.tar.gz).
 You can also leverage the included `Makefile` target as:
 
-> This needs to be run on the edge-side!
+> :warning: This needs to be run on the edge-side!
 
 
 ```python
@@ -66,7 +66,7 @@ Once downloaded, you will need to join the device to the cluster.
 To do this, you first need a secret token from the cloud-side.
 This token can be retrieved as:
 
-> Note that this command needs to run on the cloud side!
+> :warning: Note that this command needs to run on the cloud side!
 
 
 ```python
