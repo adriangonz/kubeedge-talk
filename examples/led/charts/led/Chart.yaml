@@ -1,8 +1,0 @@
-apiVersion: v2
-name: led-example
-description: Chart to set up a Led device and a blinker
-
-type: application
-
-version: 0.1.0
-appVersion: v1.4.0

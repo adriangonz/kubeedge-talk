@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: led-example
-      image: adriangonz/kubeedge-led-example:0.1.0
+      image: adriangonz/kubeedge-led-example:0.1.0-arm
       volumeMounts:
         - mountPath: /dev/gpiomem
           name: dev-gpiomem
