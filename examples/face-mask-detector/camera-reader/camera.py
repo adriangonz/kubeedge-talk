@@ -10,7 +10,9 @@ from picamera.array import PiRGBArray
 
 
 DEBUG = os.getenv("DEBUG", "false").lower() == "true"
-MODEL_SERVER = os.getenv("MODEL_SERVER", default="http://model:9000")
+MODEL_IP = os.getenv("MODEL_IP", default="face-mask-detector-default")
+MODEL_PORT = os.getenv("MODEL_PORT", default="9001")
+MODEL_SERVER = f"http://{MODEL_IP}:{MODEL_PORT}"
 PIXEL_FORMAT = "RGB"
 CAMERA_RESOLUTION = (260, 260)
 CAMERA_WARMUP_SECONDS = 2
