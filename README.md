@@ -1,6 +1,7 @@
 # Inference on (the) KubeEdge
 
 This repository holds the notebooks and examples that will be shown in the [`Inference on (the) KubeEdge` talk during the Open Source Summit EU 2020](https://osseu2020.sched.com/event/eCFe/inference-on-the-kubeedge-adrian-gonzalez-martin-seldon).
+The accompanying slides can be [found here](https://docs.google.com/presentation/d/1GwjfS_8j8hkulEeeARiPFKMzr6iWD4Ezmil56RH1jwc/edit?usp=sharing).
 
 ## Pre-requirements
 
